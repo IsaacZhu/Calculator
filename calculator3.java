@@ -25,7 +25,6 @@ public class calculator3 extends JFrame{
     calculator3(){
         UIinit();
         listenInit();
-        //controlListen();//C、CE、Back监听
     } //calculator
 
     /***************界面生成********************************************************/
@@ -47,7 +46,10 @@ public class calculator3 extends JFrame{
 
     /******************程序员计算器************* */
     private JPanel scalePanel = new JPanel();   //进制选择块
-	private JTextField progText = new JTextField(50);  //单行输入文本框
+	//private JTextField progText = new JTextField(50);  //单行输入文本框
+    private JTextArea progText = new JTextArea(1,50);
+    private JLabel progResult = new JLabel();
+    
     private JPanel progCenterPanel = new JPanel();   //中间面板
     private JPanel progBtnPanel = new JPanel();    //按键面板
 
@@ -87,8 +89,12 @@ public class calculator3 extends JFrame{
         scalePanel.setBounds(0,0,680,50);  //设置该块尺寸
 
         //处理第二个基本块
-        progCenterPanel.add(progText);
+        progCenterPanel.setLayout(new GridLayout(2,1,0,0));
+        progCenterPanel.add(progText,BorderLayout.NORTH);
+        progCenterPanel.add(progResult);
         progCenterPanel.setBounds(0,50,680,50);  //设置该块尺寸
+        progCenterPanel.setBackground(Color.WHITE);
+        progResult.setText("");
 
         //处理第三个基本块
         //初始化按钮
@@ -107,7 +113,9 @@ public class calculator3 extends JFrame{
     private JPanel sciNumPanel = new JPanel();      //数字面板
     private JPanel sciRightSymPanel = new JPanel(); //右边按键面板
 
-    private JTextField sciText = new JTextField(50);  //单行输入文本框
+    //private JTextField sciText = new JTextField(50);  //单行输入文本框
+    private JTextArea sciText = new JTextArea(1,50);
+    private JLabel sciResult = new JLabel("");
 
     //左边面板符号按钮
     String sciLeftBtnText[] = {"sin","cos","tan","lg","ln","x^a","n!","e","π","sqrt","(",")",
@@ -130,7 +138,10 @@ public class calculator3 extends JFrame{
         sciCalPanel.add(sciRightSymPanel);
 
         //输入面板初始化
+        sciInputPanel.setLayout(new GridLayout(2,1,0,0));
+        sciInputPanel.setBackground(Color.WHITE);
         sciInputPanel.add(sciText);
+        sciInputPanel.add(sciResult);  
         sciInputPanel.setBounds(0,0,680,50);
 
         //左边按键面板初始化
