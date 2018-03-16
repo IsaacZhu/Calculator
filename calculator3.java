@@ -42,6 +42,7 @@ public class calculator3 extends JFrame{
         tp.setTitleAt(0, "科学计算器");
         tp.setTitleAt(1, "程序计算器");
         jf.setContentPane(tp);      //将tab作为面板内容
+        tp.setBackground(deepGrey); //颜色
     }//tabInit
 
     /******************程序员计算器************* */
@@ -113,6 +114,9 @@ public class calculator3 extends JFrame{
     private JPanel sciNumPanel = new JPanel();      //数字面板
     private JPanel sciRightSymPanel = new JPanel(); //右边按键面板
 
+    private Color deepGrey = new Color(76,76,76);   //深灰
+    private Color thickOrange = new Color(246,173,47);  //一种橙色
+
     //private JTextField sciText = new JTextField(50);  //单行输入文本框
     private JTextArea sciText = new JTextArea(1,50);
     private JLabel sciResult = new JLabel("");
@@ -150,7 +154,8 @@ public class calculator3 extends JFrame{
             sciLeftBtns[i] = new JButton(sciLeftBtnText[i]);    //按键名称
             sciLeftSymPanel.add(sciLeftBtns[i]);
         }
-        sciLeftSymPanel.setBounds(0,50,400,280);    //设置大小及位置
+        sciLeftSymPanel.setBounds(0,50,400,290);    //设置大小及位置
+        sciLeftSymPanel.setBackground(deepGrey);
 
         //数字面板初始化
         sciNumPanel.setLayout(new GridLayout(5,3,0,0));
@@ -158,15 +163,20 @@ public class calculator3 extends JFrame{
             sciNumBtns[i] = new JButton(sciNumBtnText[i]);
             sciNumPanel.add(sciNumBtns[i]);
         }
-        sciNumPanel.setBounds(400,50,200,280);
+        sciNumPanel.setBounds(400,50,200,290);
+        sciNumPanel.setBackground(deepGrey);
 
         //右边按钮面板初始化
         sciRightSymPanel.setLayout(new GridLayout(5,1,0,0));
         for (int i = 0;i < sciRightBtns.length; ++i){
             sciRightBtns[i] = new JButton(sciRightBtnText[i]);
             sciRightSymPanel.add(sciRightBtns[i]);
+            sciRightBtns[i].setBorderPainted(false);//去掉边框
+            sciRightBtns[i].setForeground(Color.WHITE);
+            sciRightBtns[i].setFont(new Font("苹方",1,20));
         }
-        sciRightSymPanel.setBounds(600,50,80,280);
+        sciRightSymPanel.setBounds(600,50,80,290);
+        sciRightSymPanel.setBackground(thickOrange);
     }//sciInit
 
     //初始化界面
@@ -178,7 +188,7 @@ public class calculator3 extends JFrame{
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//点X关闭窗口
         jf.setLocation(400, 200); //初始化时定位
         jf.setSize(700,400);
-        //jf.setBackground(Color.BLACK);
+        jf.setBackground(deepGrey);
         jf.setResizable(false);   //禁止拖曳改变窗口大小
         jf.setVisible(true);  //显示窗口
     }//UIinit
