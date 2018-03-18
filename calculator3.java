@@ -88,6 +88,7 @@ public class calculator3 extends JFrame{
         scalePanel.add(progBtnOCT);
         scalePanel.add(progBtnBIN);
         scalePanel.setBounds(0,0,680,50);  //设置该块尺寸
+        //scalePanel.setBackground(Color.WHITE);
 
         //处理第二个基本块
         progCenterPanel.setLayout(new GridLayout(2,1,0,0));
@@ -104,7 +105,8 @@ public class calculator3 extends JFrame{
             progBtnPanel.add(progBtns[i]);          //加入面板
         }
         progBtnPanel.setLayout(new GridLayout(4,8,0,0)); //设置网格
-        progBtnPanel.setBounds(0,130,680,200);  //设置该块尺寸
+        progBtnPanel.setBounds(0,100,680,240);  //设置该块尺寸
+        progBtnPanel.setBackground(deepGrey);   //颜色
     }//progUIInit
     /**********程序员计算器结束***************** */
 
@@ -293,25 +295,22 @@ public class calculator3 extends JFrame{
     }//sciListen
 
   
-    enum InputState{            //输入状态
-        HEX,DEC,OCT,BIN
-    }
-    InputState state = InputState.HEX;
+    int radix = 16; //记录进制
 
     //程序员计算器监听
     public void progListen(){
         //输入状态面板监听
         progBtnHEX.addActionListener(e->{
-            state = InputState.HEX;
+            radix = 16;
         });
         progBtnDEC.addActionListener(e->{
-            state = InputState.DEC;
+            radix = 10;
         });
         progBtnOCT.addActionListener(e->{
-            state = InputState.OCT;
+            radix = 8;
         });
         progBtnBIN.addActionListener(e->{
-            state = InputState.BIN;
+            radix = 2;
         });
 
         //按键面板监听
@@ -340,16 +339,34 @@ public class calculator3 extends JFrame{
         }
 
         //HEX,DEC,OCT,BIN
-        //TODO:未处理
+        progBtns[8].addActionListener(e->{  //HEX
+            progText.setText(progResult.getText().substring(1));
+            progResult.setText("=" + new ProgCal().getRadixConvertResult(progText.getText(),radix,16));
+        });
+        progBtns[9].addActionListener(e->{  //DEC
+            progText.setText(progResult.getText().substring(1));
+            progResult.setText("=" + new ProgCal().getRadixConvertResult(progText.getText(),radix,10));
+        });
+        progBtns[10].addActionListener(e->{  //OCT
+            progText.setText(progResult.getText().substring(1));
+            progResult.setText("=" + new ProgCal().getRadixConvertResult(progText.getText(),radix,8));
+        });
+        progBtns[11].addActionListener(e->{  //BIN
+            progText.setText(progResult.getText().substring(1));
+            progResult.setText("=" + new ProgCal().getRadixConvertResult(progText.getText(),radix,2));
+        });
 
         for (int i = 12;i < progBtns.length; ++i){
             if (progBtnText[i].equals("AC")){   //AC
                 progBtns[i].addActionListener(e->{
                     progText.setText("");   //清空
+                    progResult.setText("");
                 });
             }
             else if (progBtnText[i].equals("=")){   //=     //TODO: =未设置 
-
+                    progBtns[i].addActionListener(e->{
+                        progResult.setText("=" + new ProgCal().getProgResult(progText.getText(),radix));
+                    });
             }
             else{
                 progBtns[i].addActionListener(progTextBtnListener);
