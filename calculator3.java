@@ -291,6 +291,9 @@ public class calculator3 extends JFrame{
 
         // = 号
         //TODO:未添加
+        sciRightBtns[4].addActionListener(e->{
+            sciResult.setText("=" + new SciCal(sciText.getText()).getResult());
+        });
 
     }//sciListen
 
