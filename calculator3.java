@@ -31,16 +31,22 @@ public class calculator3 extends JFrame{
     private JFrame jf=new JFrame("Calculator"); //窗口
 	private JPanel sciCalPanel=new JPanel();    //科学计算器面板
 	private JPanel progCalPanel=new JPanel();   //程序计算器面板
-
+    private JPanel matrixCalPanel = new JPanel();//矩阵计算器面板
+    private JPanel eqationCalPanel = new JPanel();//方程计算器面板
     
-    //初始化成两个tab，每块的参数在这里设置
+    //初始化成四个tab，每块的参数在这里设置
     public void tabInit(){
         JTabbedPane tp = new JTabbedPane();
+        //添加各面板
         tp.add(sciCalPanel);
         tp.add(progCalPanel);
+        tp.add(matrixCalPanel);
+        tp.add(eqationCalPanel);
         // 设置tab的标题
         tp.setTitleAt(0, "科学计算器");
         tp.setTitleAt(1, "程序计算器");
+        tp.setTitleAt(2, "矩阵计算器");
+        tp.setTitleAt(3, "方程计算器");
         jf.setContentPane(tp);      //将tab作为面板内容
         tp.setBackground(deepGrey); //颜色
     }//tabInit
@@ -181,11 +187,121 @@ public class calculator3 extends JFrame{
         sciRightSymPanel.setBackground(thickOrange);
     }//sciInit
 
+    /**********科学计算器结束********************** */
+
+    /**********矩阵计算器********************** */
+    private JPanel matInputPanel = new JPanel();    //输入面板
+    private JPanel matBtnPanel = new JPanel();      //按键面板
+    private JPanel matResultPanel = new JPanel();   //结果面板
+
+    //输入面板信息
+    private JCheckBox matA = new JCheckBox("矩阵A");    //矩阵选中按钮
+    private JCheckBox matB = new JCheckBox("矩阵B");
+        //A信息
+    private JLabel matRowTipA = new JLabel("行数:");
+    private JTextArea matRowA = new JTextArea(1,10);   //行输入
+    private JLabel matColTipA = new JLabel("列数:");
+    private JTextArea matColA = new JTextArea(1,10);   //列输入
+    private JLabel matFacTipA = new JLabel("元素:");
+    private JTextArea matTextA = new JTextArea(2,30);   //矩阵输入
+    private int matHeightA = 20;    //小组件的纵坐标
+    private int matSize = 20;      //小组件的宽度
+        //B信息
+    private JLabel matRowTipB = new JLabel("行数:");
+    private JTextArea matRowB = new JTextArea(1,10);   //行输入
+    private JLabel matColTipB = new JLabel("列数:");
+    private JTextArea matColB = new JTextArea(1,10);   //列输入
+    private JLabel matFacTipB = new JLabel("元素:");
+    private JTextArea matTextB = new JTextArea(2,30);   //矩阵输入
+    private int matHeightB = 85;    //小组件的纵坐标
+
+    //按钮面板信息
+    private String matBtnText[] = {
+        "+","-","*","÷","逆","|A|","转置","="
+    };
+    private JButton matBtns[] = new JButton[matBtnText.length];
+
+    //结果面板信息
+    private JLabel matResult = new JLabel();
+
+    //矩阵面板初始化
+    public void matInit(){
+        matrixCalPanel.setLayout(null);//空布局
+
+        //添加面板
+        matrixCalPanel.add(matInputPanel);
+        matrixCalPanel.add(matBtnPanel);
+        matrixCalPanel.add(matResultPanel);
+
+        //输入面板初始化
+        matInputPanel.setLayout(null);  //空布局
+        matInputPanel.setBounds(0,0,680,140);
+        matInputPanel.setBackground(deepGrey);
+            //添加各个组件
+        matInputPanel.add(matA);
+        matInputPanel.add(matB);
+        matInputPanel.add(matRowTipA);
+        matInputPanel.add(matRowA);
+        matInputPanel.add(matColTipA);
+        matInputPanel.add(matColA);
+        matInputPanel.add(matTextA);
+        matInputPanel.add(matFacTipA);
+        matInputPanel.add(matRowTipB);
+        matInputPanel.add(matRowB);
+        matInputPanel.add(matColTipB);
+        matInputPanel.add(matColB);
+        matInputPanel.add(matTextB);
+        matInputPanel.add(matFacTipB);
+            //设置各组件位置
+        matA.setBounds(0,matHeightA,80,matSize);
+        matRowTipA.setBounds(80,matHeightA,40,matSize);
+        matRowA.setBounds(120,matHeightA,40,matSize);
+        matColTipA.setBounds(160,matHeightA,40,matSize);
+        matColA.setBounds(200,matHeightA,40,matSize);
+        matFacTipA.setBounds(240,matHeightA,40,matSize);
+        matTextA.setBounds(280,10,400,40);
+
+        matB.setBounds(0,matHeightB,80,matSize);
+        matRowTipB.setBounds(80,matHeightB,40,matSize);
+        matRowB.setBounds(120,matHeightB,40,matSize);
+        matColTipB.setBounds(160,matHeightB,40,matSize);
+        matColB.setBounds(200,matHeightB,40,matSize);
+        matFacTipB.setBounds(240,matHeightB,40,matSize);
+        matTextB.setBounds(280,75,400,40);
+            //设置各组件其他属性
+        matA.setSelected(true);         //默认选中A
+        matA.setForeground(Color.WHITE);    //颜色
+        matRowTipA.setForeground(Color.WHITE);
+        matColTipA.setForeground(Color.WHITE);
+        matFacTipA.setForeground(Color.WHITE);
+        matB.setForeground(Color.WHITE);
+        matRowTipB.setForeground(Color.WHITE);
+        matColTipB.setForeground(Color.WHITE);
+        matFacTipB.setForeground(Color.WHITE);
+
+        //按钮面板初始化
+        matBtnPanel.setLayout(new GridLayout(2,4,0,0));
+        matBtnPanel.setBounds(0,140,400,195);
+        matBtnPanel.setBackground(deepGrey);
+        for (int i = 0; i < matBtnText.length; ++i){
+            matBtns[i] = new JButton(matBtnText[i]);
+            matBtnPanel.add(matBtns[i]);    //添加到面板
+        }
+
+        //结果面板初始化
+        matResultPanel.setBounds(400,140,280,195);
+        matResultPanel.add(matResult);
+
+    }//matInit
+
+    /**********矩阵计算器结束********************** */
+
     //初始化界面
     public void UIinit(){
         tabInit();
         progUIInit();
         sciInit();
+        matInit();  //矩阵面板初始化
 
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//点X关闭窗口
         jf.setLocation(400, 200); //初始化时定位
@@ -377,10 +493,49 @@ public class calculator3 extends JFrame{
         }
     }//progListen
 
+    //矩阵计算器监听
+    boolean matAChosen = true, matBChosen = false;  //记录是否选中
+
+    public void matListen(){
+        //两个选中按钮的监听
+        matA.addActionListener(e->{
+            matAChosen = !matAChosen;   //按下则状态反转
+        });
+        matB.addActionListener(e->{
+            matBChosen = !matBChosen;
+        });
+        //计算按钮监听
+        matBtns[0].addActionListener(e->{   //+
+
+        });
+        matBtns[1].addActionListener(e->{   //-
+
+        });
+        matBtns[2].addActionListener(e->{   //*
+
+        });
+        matBtns[3].addActionListener(e->{   //÷
+
+        });
+        matBtns[4].addActionListener(e->{   //求逆
+
+        });
+        matBtns[5].addActionListener(e->{   //行列式
+
+        });
+        matBtns[6].addActionListener(e->{   //转置
+
+        });
+        matBtns[7].addActionListener(e->{   //=
+
+        });
+    }//matListen
+
     //开始监听
     public void listenInit(){
         sciListen();
         progListen();
+        matListen();
     }//listenInit
     /*********************监听部分结束************************************************ */
 }//calculator3
