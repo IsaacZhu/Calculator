@@ -277,7 +277,13 @@ public class calculator3 extends JFrame{
         matB.setForeground(Color.WHITE);
         matRowTipB.setForeground(Color.WHITE);
         matColTipB.setForeground(Color.WHITE);
-        matFacTipB.setForeground(Color.WHITE);
+        matFacTipB.setForeground(Color.WHITE);  
+        matRowB.setEditable(false);        //初始时各框不可输入
+        matRowB.setBackground(Color.GRAY);
+        matColB.setEditable(false);
+        matColB.setBackground(Color.GRAY);
+        matTextB.setEditable(false);
+        matTextB.setBackground(Color.GRAY);
 
         //按钮面板初始化
         matBtnPanel.setLayout(new GridLayout(2,4,0,0));
@@ -292,7 +298,7 @@ public class calculator3 extends JFrame{
         matResultPanel.setBounds(400,140,280,195);
         matResultPanel.add(matResult);
         matResultPanel.setLayout(null);
-        matResult.setBounds(5,10,270,180); 
+        matResult.setBounds(0,0,280,195); 
         matResult.setForeground(Color.WHITE);
         matResult.setEditable(false);
     }//matInit
@@ -604,9 +610,41 @@ public class calculator3 extends JFrame{
         //两个选中按钮的监听
         matA.addActionListener(e->{
             matAChosen = !matAChosen;   //按下则状态反转
+            if (matAChosen){    //被选中
+                matRowA.setEditable(true);
+                matRowA.setBackground(Color.WHITE);
+                matColA.setEditable(true);
+                matColA.setBackground(Color.WHITE);
+                matTextA.setEditable(true);
+                matTextA.setBackground(Color.WHITE);
+            }
+            else{ //未被选中，不可输入
+                matRowA.setEditable(false);
+                matRowA.setBackground(Color.GRAY);
+                matColA.setEditable(false);
+                matColA.setBackground(Color.GRAY);
+                matTextA.setEditable(false);
+                matTextA.setBackground(Color.GRAY);
+            }
         });
         matB.addActionListener(e->{
             matBChosen = !matBChosen;
+            if (matBChosen){    //被选中
+                matRowB.setEditable(true);
+                matRowB.setBackground(Color.WHITE);
+                matColB.setEditable(true);
+                matColB.setBackground(Color.WHITE);
+                matTextB.setEditable(true);
+                matTextB.setBackground(Color.WHITE);
+            }
+            else{ //未被选中，不可输入
+                matRowB.setEditable(false);
+                matRowB.setBackground(Color.GRAY);
+                matColB.setEditable(false);
+                matColB.setBackground(Color.GRAY);
+                matTextB.setEditable(false);
+                matTextB.setBackground(Color.GRAY);
+            }
         });
         //计算按钮监听
         matBtns[0].addActionListener(e->{   //+
