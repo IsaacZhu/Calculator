@@ -49,8 +49,15 @@ public class ProgCal{
         "1000","1001","1010","1011","1100","1101","1110","1111"
     }; 
     private String errorList[] = {  //错误列表
-        ""
+        "输入中有非法字符",         //0
+        "操作数需要是整数",         //1
+        "不允许多个小数点",         //2
+        "有小数点但没有小数部分",   //3
+        "括号不匹配",              //4
+        "符号与操作数数量不匹配",    //5
+        "未知错误"                 //6
     };
+    private List<String> errorArrayList = new ArrayList<String>();
 
     //浮点数变整数
     public int floatToInt(Double x){
@@ -58,7 +65,7 @@ public class ProgCal{
         int ceil = (int)Math.ceil(x);    //上整
         if (x - floor > 10e-6 && ceil - x > 10e-6){
             errorShower = true; 
-            error();
+            error(1);
             return 0;
         }
         else if (x - floor > ceil - x){ //更接近上整
@@ -75,37 +82,49 @@ public class ProgCal{
         boolean isFloatNum = false; //记录小数
         int bit = 0;    //小数位
         String newSym = String.valueOf(inputText[stringIndex]);  //获得一个字符
-        System.out.println("#1");//tc
+        //System.out.println("#1");//tc
         if (!allowList.contains(newSym)){   //若该字符不合法
-            System.out.println("#2");//tc
-            error();       //报错并返回
+            //System.out.println("#2");//tc
+            error(0);       //报错并返回
             return;
         }
         if (numList.contains(inputText[stringIndex])){    //是数字
             sym = "num";    //表明是数字
             symNum = 0.0;
             while(numList.contains(inputText[stringIndex]) || inputText[stringIndex] == '.'){
+                System.out.println("num:"+inputText[stringIndex]);//tc
                 if (inputText[stringIndex] == '.'){ //小数点
                     if (isFloatNum){    //前面已经有一个小数点
-                        error();    //输入有误
+                        error(2);    //输入有误
                         return;
                     }
                     else isFloatNum = true; //记录这个小数点
                 }
                 else if (inputText[stringIndex] >= 'A' && inputText[stringIndex] <= 'F'){  //十六进制
                     tmpNum = inputText[stringIndex] - 'A' + 10; //unicode -> num
+                    if (isFloatNum){    //小数 
+                        if (tmpNum != 0)
+                        symNum += Math.pow(tmpNum,-(++bit));
+                    }
+                    else symNum = symNum * scale + tmpNum ; //逐位加
                 }
                 else {  //普通数字
                     tmpNum = inputText[stringIndex] - '0';
+                    if (isFloatNum){    //小数 
+                        if (tmpNum != 0)
+                        symNum += Math.pow(tmpNum,-(++bit));
+                    }
+                    else symNum = symNum * scale + tmpNum ; //逐位加
                 }
-                if (isFloatNum){    //小数 
+                /*if (isFloatNum){    //小数 
+                    if (tmpNum != 0)
                     symNum += Math.pow(tmpNum,-(++bit));
                 }
-                else symNum = symNum * scale + tmpNum ; //逐位加
+                else symNum = symNum * scale + tmpNum ;*/ //逐位加
                 stringIndex++; 
             }//while
             if (isFloatNum && bit == 0){    //小数点后面没有跟数！
-                error();
+                error(3);
                 return;
             }//if
         }//if 数字
@@ -113,23 +132,25 @@ public class ProgCal{
             sym = newSym;   //符号赋值
             stringIndex++;  //下标移动
         }
-        if (sym.equals("num"))  System.out.println(symNum);    //tc
-        else System.out.println("getsym:"+sym);    //tc
+        System.out.println("sym:"+sym);    //tc
     }//getSym
     
     //报错专用函数
     public void error(){
         sym = "输入有误";
+        errorShower = true;
+    }//error
+
+    public void error(int x){
+        sym = errorList[x];
+        errorShower = true;
     }//error
 
     //递归计算部分
     public void factor(List<String> fsys){
         if (sym.equals("num")){ //数字
-            System.out.println("#4");    //tc
-            
             numStack.push(symNum);  //数字入栈
             getSym();//获取下一个符号
-            System.out.println(sym);    //tc
         }
         else if (sym.equals("(")){  //匹配到左括号
             getSym();
@@ -138,14 +159,14 @@ public class ProgCal{
             expression(newFsys);
             if (sym.equals(")")) return;
             else {  //括号不匹配，有误
-                error();
+                error(4);
                 return;
             }
         }//else if (
         //可能是个冒险的决定
         else if (fsys.contains(sym)) return;
         else{   //有误
-            error();
+            error(0);   //不一定是这个错误。。。
             return;
         }//else
     }//factor
@@ -158,7 +179,7 @@ public class ProgCal{
             getSym();
             factor(fsys);
             if (numStack.isEmpty()){    //栈空，有误
-                error();
+                error(5);
                 return;
             }
             else{
@@ -179,7 +200,7 @@ public class ProgCal{
             getSym();
             factor(fsys);   //继续分析后面的内容
             if (numStack.isEmpty()){    //栈空，有误
-                error();
+                error(5);
                 return;
             }
             else{
@@ -187,7 +208,7 @@ public class ProgCal{
                 tmpInterger = (int)tmpFloat;    //取整
                 if (tmpFloat - tmpInterger > 10E-6 || 
                     tmpInterger - tmpFloat > 10E-6){    //看是否整数
-                    error();
+                    error(1);
                     return;
                 }
                 else{   //可认为是整数
@@ -208,7 +229,7 @@ public class ProgCal{
             System.out.println("#3");
             mulop = sym;    //记录符号
             if (numStack.isEmpty()){    //栈空，有误
-                error();
+                error(5);
                 return;
             }
             else{
@@ -216,7 +237,7 @@ public class ProgCal{
                 getSym();
                 not_expr(fsys); //算第二个数
                 if (numStack.isEmpty()){    //栈空，有误
-                    error();
+                    error(5);
                     return;
                 }
                 else if (mulop.equals("*")){   //乘法   
@@ -237,7 +258,7 @@ public class ProgCal{
         mul_expr(fsys);
         while (sym.equals("+")){
             if (numStack.isEmpty()){    //栈空，有误
-                error();
+                error(5);
                 return;
             }
             else{
@@ -245,7 +266,7 @@ public class ProgCal{
                 getSym();
                 mul_expr(fsys); //算第二个数
                 if (numStack.isEmpty()){    //栈空，有误
-                    error();
+                    error(5);
                     return;
                 }
                 else    {   
@@ -262,7 +283,7 @@ public class ProgCal{
         additive_expr(fsys);
         while (sym.equals("&")){
             if (numStack.isEmpty()){    //栈空，有误
-                error();
+                error(5);
                 return;
             }
             else{
@@ -270,7 +291,7 @@ public class ProgCal{
                 getSym();
                 additive_expr(fsys); //算第二个数
                 if (numStack.isEmpty()){    //栈空，有误
-                    error();
+                    error(5);
                     return;
                 }
                 else    {   
@@ -287,7 +308,7 @@ public class ProgCal{
         and_expr(fsys);
         while (sym.equals("^")){
             if (numStack.isEmpty()){    //栈空，有误
-                error();
+                error(5);
                 return;
             }
             else{
@@ -295,7 +316,7 @@ public class ProgCal{
                 getSym();
                 and_expr(fsys); //算第二个数
                 if (numStack.isEmpty()){    //栈空，有误
-                    error();
+                    error(5);
                     return;
                 }
                 else    {   
@@ -312,7 +333,7 @@ public class ProgCal{
         xor_expr(fsys);
         while (sym.equals("|")){
             if (numStack.isEmpty()){    //栈空，有误
-                error();
+                error(5);
                 return;
             }
             else{
@@ -320,7 +341,7 @@ public class ProgCal{
                 getSym();
                 xor_expr(fsys); //算第二个数
                 if (numStack.isEmpty()){    //栈空，有误
-                    error();
+                    error(5);
                     return;
                 }
                 else    {   
@@ -334,83 +355,6 @@ public class ProgCal{
     public void expression(List<String> fsys){
         or_expr(fsys);
     }//expression
-
-    //进制转换函数
-    //处理的数字变量是result
-    //处理十六进制 -> 八进制/二进制
-    //只处理六位小数
-    public String hexToOtherRadix(InputState outState){
-        int intPart = 0;
-        int dotIndex,readIndex,tmp;   //小数点位置 及 读到的位置
-        double floatPart;
-        String intPartText = "",hexFloatPart;
-        String binFloatPart = "";   //二进制小数部分
-        String octFloatPart = "";   //八进制小数部分
-        char ch;    
-        //整数部分直接转到目标进制
-        intPart = (int)result;
-        if (outState == InputState.OCT){    //八进制
-            intPartText = Integer.toOctalString(intPart);
-        }
-        else if (outState == InputState.BIN){   //二进制  
-            intPartText = Integer.toBinaryString(intPart);
-        }
-        //小数部分先转为二进制
-        floatPart = result - intPart;
-        hexFloatPart = Double.toHexString(floatPart);  //先转为十六进制
-        dotIndex = hexFloatPart.indexOf(".");
-        if (dotIndex == -1){    //小数点不存在,直接返回整数部分即可
-            return intPartText;
-        }
-        readIndex = dotIndex + 1;   //第一个小数
-        for (int i = 0; i < 5 && readIndex < hexFloatPart.length(); ++i){    //数五位小数
-            ch = hexFloatPart.charAt(readIndex++);
-            if (ch >= 'A' && ch <= 'F'){  //十六进制
-                binFloatPart += hexToBin[ch - 'A' + 10]; //unicode -> num
-            }
-            else if (ch >= '0' && ch <= '9'){  //普通数字
-                binFloatPart += hexToBin[ch - '0'];
-            }
-        }//for
-        if (outState == InputState.BIN){    //二进制
-            return intPartText + "." + binFloatPart.substring(0,binFloatPart.length()>=6?6:binFloatPart.length());
-        }
-
-        //小数部分二进制转八进制
-        readIndex = 0;
-        for (int i = 0; i < 6 && readIndex <= (binFloatPart.length()-3); ++i){
-            tmp = Integer.valueOf((binFloatPart.substring(readIndex,readIndex+3))); //获取二进制数
-            switch (tmp){   //二进制数转八进制
-                case 0: //000
-                    octFloatPart += "0";
-                    break;
-                case 1: //001
-                    octFloatPart += "1";
-                    break;
-                case 10: //010
-                    octFloatPart += "2";
-                    break;
-                case 11: //011
-                    octFloatPart += "3";
-                    break;
-                case 100: //100
-                    octFloatPart += "4";
-                    break;
-                case 101: //101 
-                    octFloatPart += "5";
-                    break;
-                case 110: //110
-                    octFloatPart += "6";
-                    break;
-                case 111: //111
-                    octFloatPart += "7";
-                    break;
-                default: return "输入有误";
-            }///switch
-            readIndex += 3;
-        }//for
-        return intPartText + "." + octFloatPart;
-    }//hexToOtherRadix
 
     //结果计算函数
     public String getProgResult(String text,int radix){
@@ -462,17 +406,18 @@ public class ProgCal{
         List<String> fsys = new ArrayList<String>();    //终结符
         fsys.add("\0"); //添加终结符
 
-        System.out.println("#0");//tc
         getSym();
         expression(fsys);
-        if (sym.equals("输入有误")){  //输入有问题
-            return "输入有误";
+        //if (sym.equals("输入有误")){  //输入有问题
+        if (errorShower){
+            return sym;
         }
         else{
             result = numStack.pop();    //结果出栈
             System.out.println("result is"+ result);    //tc
             if (!numStack.isEmpty()){   //结果出栈后栈不空，说明原式有误
-                return "输入有误";
+                error(5);
+                return sym;
             }
             //处理输出进制
             if (scale == 10){   //十进制
@@ -495,8 +440,13 @@ public class ProgCal{
     //进制转换按钮响应函数
     public String getRadixConvertResult(String text,int inputRadix,int outputRadix){
         String txt;
-        int intPart = (int)result;
         txt = getProgResult(text,inputRadix); //先利用这个函数分析数字，得到result
+        int intPart = (int)result;
+        System.out.println("txt:"+txt+"intpart"+intPart);//tc
+        for (int i = 0; i < errorList.length; ++i){
+            errorArrayList.add(errorList[i]);
+        }
+        if (errorArrayList.contains(txt) || txt.equals("输入有误")) return txt;
         if (outputRadix == 10){ //十进制，直接输出即可
             return Double.toString(result);
         }

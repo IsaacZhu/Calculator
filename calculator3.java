@@ -555,19 +555,27 @@ public class calculator3 extends JFrame{
 
         //HEX,DEC,OCT,BIN
         progBtns[8].addActionListener(e->{  //HEX
-            progText.setText(progResult.getText().substring(1));
-            progResult.setText("=" + new ProgCal().getRadixConvertResult(progText.getText(),radix,16));
+            if (progResult.getText().length() > 1){
+                progText.setText(progResult.getText().substring(1));
+            }
+                progResult.setText("=" + new ProgCal().getRadixConvertResult(progText.getText(),radix,16));
         });
         progBtns[9].addActionListener(e->{  //DEC
-            progText.setText(progResult.getText().substring(1));
+            if (progResult.getText().length() > 1){
+                progText.setText(progResult.getText().substring(1));
+            }
             progResult.setText("=" + new ProgCal().getRadixConvertResult(progText.getText(),radix,10));
         });
         progBtns[10].addActionListener(e->{  //OCT
-            progText.setText(progResult.getText().substring(1));
+            if (progResult.getText().length() > 1){
+                progText.setText(progResult.getText().substring(1));
+            }
             progResult.setText("=" + new ProgCal().getRadixConvertResult(progText.getText(),radix,8));
         });
         progBtns[11].addActionListener(e->{  //BIN
-            progText.setText(progResult.getText().substring(1));
+            if (progResult.getText().length() > 1){
+                progText.setText(progResult.getText().substring(1));
+            }
             progResult.setText("=" + new ProgCal().getRadixConvertResult(progText.getText(),radix,2));
         });
 
