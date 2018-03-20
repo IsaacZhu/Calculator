@@ -32,7 +32,7 @@ public class calculator3 extends JFrame{
 	private JPanel sciCalPanel=new JPanel();    //科学计算器面板
 	private JPanel progCalPanel=new JPanel();   //程序计算器面板
     private JPanel matrixCalPanel = new JPanel();//矩阵计算器面板
-    private JPanel eqationCalPanel = new JPanel();//方程计算器面板
+    private JPanel equationCalPanel = new JPanel();//方程计算器面板
     
     //初始化成四个tab，每块的参数在这里设置
     public void tabInit(){
@@ -41,7 +41,7 @@ public class calculator3 extends JFrame{
         tp.add(sciCalPanel);
         tp.add(progCalPanel);
         tp.add(matrixCalPanel);
-        tp.add(eqationCalPanel);
+        tp.add(equationCalPanel);
         // 设置tab的标题
         tp.setTitleAt(0, "科学计算器");
         tp.setTitleAt(1, "程序计算器");
@@ -296,12 +296,96 @@ public class calculator3 extends JFrame{
 
     /**********矩阵计算器结束********************** */
 
+    /**********方程计算器************************* */
+    private JPanel equaInputPanel = new JPanel();   //输入面板
+    private JPanel equaBtnPanel = new JPanel();     //等号用的按钮
+    private JPanel equaResultPanel = new JPanel();  //结果面板
+
+    String[] equaTypeText = new String[] {"一元二次","n元一次"};    //选择计算类型
+    JComboBox equaType = new JComboBox(equaTypeText);
+
+    private JLabel equaVarTip = new JLabel("变量数:");
+    private JTextArea equaVar = new JTextArea(1,10);    //变量数输入
+    private JLabel equaCoeffTip = new JLabel("参数输入:");
+    private JTextArea equaCoeff = new JTextArea(3,40);  //参数输入
+    private JButton equaCalBtn = new JButton("=");  //结果按键
+
+    private JLabel equaResultTip = new JLabel("计算结果");
+    //private JLabel equaLeftLine = new JLabel(); //一条线  
+    //private JLabel equaRightLine = new JLabel(); //一条线
+    private JPanel equaLeftLine = new JPanel(); //一条线  
+    private JPanel equaRightLine = new JPanel(); //一条线
+    private JLabel equaResult = new JLabel();   //结果显示
+ 
+    private static int equaHeight = 20;  //用于定位小组件位置 
+    private static int equaResultHeight = 25;//
+    //方程面板初始化
+    public void equaInit(){
+        //添加面板
+        equationCalPanel.setLayout(null);
+        equationCalPanel.add(equaInputPanel);
+        equationCalPanel.add(equaBtnPanel);
+        equationCalPanel.add(equaResultPanel);
+
+        //输入面板初始化
+        equaInputPanel.setBounds(0,0,600,60);
+        equaInputPanel.setBackground(deepGrey);
+        equaInputPanel.setLayout(null);
+            //添加元素
+        equaInputPanel.add(equaType);
+        equaInputPanel.add(equaVarTip);
+        equaInputPanel.add(equaVar);
+        equaInputPanel.add(equaCoeffTip);
+        equaInputPanel.add(equaCoeff);
+            //设置各元素位置
+        equaType.setBounds(0,0,105,20);
+        equaVarTip.setBounds(0,40,55,20);
+        equaVar.setBounds(50,40,50,20);
+        equaCoeffTip.setBounds(110,equaHeight,70,20);
+        equaCoeff.setBounds(180,0,400,60);
+            //其他元素设置
+        equaVarTip.setForeground(Color.WHITE);
+        equaCoeffTip.setForeground(Color.WHITE);
+        equaVar.setBackground(Color.GRAY);
+
+        //等号面板初始化
+        equaBtnPanel.add(equaCalBtn);
+        equaBtnPanel.setBounds(600,0,80,60);
+        equaBtnPanel.setBackground(thickOrange);
+        equaCalBtn.setBorderPainted(false);
+        equaCalBtn.setForeground(Color.WHITE);
+        equaCalBtn.setFont(new Font("苹方",1,30));
+
+        //结果面板初始化
+        equaResultPanel.setBounds(0,60,680,300);
+        equaResultPanel.setBackground(deepGrey);
+        equaResultPanel.setLayout(null);
+            //元素添加
+        //equaResultPanel.add(equaResult);
+        equaResultPanel.add(equaLeftLine);
+        equaResultPanel.add(equaResultTip);
+        equaResultPanel.add(equaRightLine);
+            //位置设置
+        equaLeftLine.setBounds(0,equaResultHeight+5,290,3);
+        equaResultTip.setBounds(310,20,60,20);
+        equaRightLine.setBounds(380,equaResultHeight+5,300,3);
+        equaResult.setBounds(0,100,680,260);
+            //其他设置
+        equaLeftLine.setBackground(Color.WHITE);
+        equaRightLine.setBackground(Color.WHITE);
+        equaResultTip.setForeground(Color.WHITE);
+
+    }//equaInit
+
+    /**********方程计算器结束********************** */
+
     //初始化界面
     public void UIinit(){
         tabInit();
         progUIInit();
         sciInit();
         matInit();  //矩阵面板初始化
+        equaInit(); //方程面板初始化
 
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//点X关闭窗口
         jf.setLocation(400, 200); //初始化时定位
@@ -531,11 +615,32 @@ public class calculator3 extends JFrame{
         });
     }//matListen
 
+    //方程计算器监听
+    int equaTypeIndex = 0;
+    String equaTypeSelected = "一元二次";
+    public void equaListen(){
+        equaType.addActionListener(e->{ //解方程类型
+            equaTypeSelected = (String)equaType.getSelectedItem();
+            if (equaTypeSelected == "一元二次") {
+                equaVar.setEditable(false);
+                equaVar.setBackground(Color.GRAY);
+            }
+            else {
+                equaVar.setEditable(true);
+                equaVar.setBackground(Color.WHITE);
+            }
+        });
+        equaCalBtn.addActionListener(e->{   //等号
+
+        });
+    }//equaListen
+
     //开始监听
     public void listenInit(){
         sciListen();
         progListen();
         matListen();
+        equaListen();
     }//listenInit
     /*********************监听部分结束************************************************ */
 }//calculator3
