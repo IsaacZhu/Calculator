@@ -375,8 +375,8 @@ public class calculator3 extends JFrame{
         equaLeftLine.setBounds(0,equaResultHeight+5,290,3);
         equaResultTip.setBounds(310,20,60,20);
         equaRightLine.setBounds(380,equaResultHeight+5,300,3);
-        equaResult.setBounds(0,50,340,260);
-        equaResultRightPart.setBounds(0,50,340,260);
+        equaResult.setBounds(0,80,340,220);
+        equaResultRightPart.setBounds(400,80,280,220);
             //其他设置
         equaLeftLine.setBackground(Color.WHITE);
         equaRightLine.setBackground(Color.WHITE);
@@ -385,6 +385,7 @@ public class calculator3 extends JFrame{
         equaResult.setBackground(deepGrey);
         equaResult.setEditable(false);
         equaResultRightPart.setBackground(deepGrey);
+        equaResultRightPart.setForeground(Color.WHITE);
         equaResultRightPart.setEditable(false);
     }//equaInit
 
@@ -627,8 +628,9 @@ public class calculator3 extends JFrame{
     }//matListen
 
     //方程计算器监听
-    int equaTypeIndex = 0;
+    int equaTypeIndex = 0,dim = 0;
     String equaTypeSelected = "一元二次";
+    String equaResultArray[];
     public void equaListen(){
         equaType.addActionListener(e->{ //解方程类型
             equaTypeSelected = (String)equaType.getSelectedItem();
@@ -642,9 +644,14 @@ public class calculator3 extends JFrame{
             }
         });
         equaCalBtn.addActionListener(e->{   //等号
-            /*if (equaTypeSelected.equals("一元二次")){
+            if (equaTypeSelected.equals("一元二次")){
                 equaResult.setText(new EquaCal().getTwoTimesEquationResult(equaCoeff.getText()));
-            }*/
+            }
+            else{   //n元一次
+                equaResultArray = new EquaCal().gaussEmilation(equaVar.getText(), equaCoeff.getText());
+                equaResult.setText("原方程:"+"\n"+equaResultArray[0]);
+                equaResultRightPart.setText("解:"+"\n"+equaResultArray[1]);
+            }
         });
     }//equaListen
 
