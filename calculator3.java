@@ -222,7 +222,7 @@ public class calculator3 extends JFrame{
     private JButton matBtns[] = new JButton[matBtnText.length];
 
     //结果面板信息
-    private JLabel matResult = new JLabel();
+    private JTextArea matResult = new JTextArea();
 
     //矩阵面板初始化
     public void matInit(){
@@ -291,7 +291,10 @@ public class calculator3 extends JFrame{
         //结果面板初始化
         matResultPanel.setBounds(400,140,280,195);
         matResultPanel.add(matResult);
-
+        matResultPanel.setLayout(null);
+        matResult.setBounds(5,10,270,180); 
+        matResult.setForeground(Color.WHITE);
+        matResult.setEditable(false);
     }//matInit
 
     /**********矩阵计算器结束********************** */
@@ -315,7 +318,8 @@ public class calculator3 extends JFrame{
     //private JLabel equaRightLine = new JLabel(); //一条线
     private JPanel equaLeftLine = new JPanel(); //一条线  
     private JPanel equaRightLine = new JPanel(); //一条线
-    private JLabel equaResult = new JLabel();   //结果显示
+    private JTextArea equaResult = new JTextArea(); //结果显示
+    private JTextArea equaResultRightPart = new JTextArea();    //右边版块。左边可以输出原方程
  
     private static int equaHeight = 20;  //用于定位小组件位置 
     private static int equaResultHeight = 25;//
@@ -365,16 +369,23 @@ public class calculator3 extends JFrame{
         equaResultPanel.add(equaLeftLine);
         equaResultPanel.add(equaResultTip);
         equaResultPanel.add(equaRightLine);
+        equaResultPanel.add(equaResult);
+        equaResultPanel.add(equaResultRightPart);
             //位置设置
         equaLeftLine.setBounds(0,equaResultHeight+5,290,3);
         equaResultTip.setBounds(310,20,60,20);
         equaRightLine.setBounds(380,equaResultHeight+5,300,3);
-        equaResult.setBounds(0,100,680,260);
+        equaResult.setBounds(0,50,340,260);
+        equaResultRightPart.setBounds(0,50,340,260);
             //其他设置
         equaLeftLine.setBackground(Color.WHITE);
         equaRightLine.setBackground(Color.WHITE);
         equaResultTip.setForeground(Color.WHITE);
-
+        equaResult.setForeground(Color.WHITE);
+        equaResult.setBackground(deepGrey);
+        equaResult.setEditable(false);
+        equaResultRightPart.setBackground(deepGrey);
+        equaResultRightPart.setEditable(false);
     }//equaInit
 
     /**********方程计算器结束********************** */
@@ -631,7 +642,9 @@ public class calculator3 extends JFrame{
             }
         });
         equaCalBtn.addActionListener(e->{   //等号
-
+            /*if (equaTypeSelected.equals("一元二次")){
+                equaResult.setText(new EquaCal().getTwoTimesEquationResult(equaCoeff.getText()));
+            }*/
         });
     }//equaListen
 
