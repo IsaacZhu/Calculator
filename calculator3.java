@@ -11,6 +11,8 @@ import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.InputEvent; 
+import java.awt.event.KeyEvent;
 
 public class calculator3 extends JFrame{
     public static void main(String args[]){
@@ -34,6 +36,41 @@ public class calculator3 extends JFrame{
     private JPanel matrixCalPanel = new JPanel();//矩阵计算器面板
     private JPanel equationCalPanel = new JPanel();//方程计算器面板
     
+    //创建并添加菜单栏
+    JMenuBar menuBar = new JMenuBar();
+    
+
+    //创建并添加各菜单，注意：菜单的快捷键是同时按下Alt键和字母键，方法setMnemonic('F')是设置快捷键为Alt +Ｆ
+    JMenu menuFile = new JMenu("文件");
+    JMenuItem itemExit = new JMenuItem("退出");
+
+    JMenu menuHelp = new JMenu("帮助");
+    JMenuItem itemSci = new JMenuItem("科学计算器用法");
+    JMenuItem itemProg = new JMenuItem("程序员计算器用法");
+    JMenuItem itemMat = new JMenuItem("矩阵计算器用法");
+    JMenuItem itemEqua = new JMenuItem("方程计算器用法");
+    JMenuItem itemAbout = new JMenuItem("关于");
+
+    //初始化菜单
+    public void menuInit(){
+        jf.setJMenuBar(menuBar);    //添加菜单栏
+
+        menuBar.add(menuFile);      //添加 “文件” 菜单
+        menuBar.add(menuHelp);      //添加帮助菜单
+        menuFile.setMnemonic('F');  //设置快捷键
+        menuHelp.setMnemonic('H');
+
+        //文件菜单初始化
+        menuFile.add(itemExit);
+
+        //帮助菜单初始化
+        menuHelp.add(itemSci);
+        menuHelp.add(itemProg);
+        menuHelp.add(itemMat);
+        menuHelp.add(itemEqua);
+        menuHelp.add(itemAbout);
+    }//menuInit
+
     //初始化成四个tab，每块的参数在这里设置
     public void tabInit(){
         JTabbedPane tp = new JTabbedPane();
@@ -399,6 +436,7 @@ public class calculator3 extends JFrame{
 
     //初始化界面
     public void UIinit(){
+        menuInit();
         tabInit();
         progUIInit();
         sciInit();
@@ -406,8 +444,8 @@ public class calculator3 extends JFrame{
         equaInit(); //方程面板初始化
 
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//点X关闭窗口
-        jf.setLocation(400, 200); //初始化时定位
-        jf.setSize(700,400);
+        jf.setLocation(300, 200); //初始化时定位
+        jf.setSize(700,430);
         jf.setBackground(deepGrey);
         jf.setResizable(false);   //禁止拖曳改变窗口大小
         jf.setVisible(true);  //显示窗口
@@ -701,8 +739,31 @@ public class calculator3 extends JFrame{
         });
     }//equaListen
 
+    //菜单监听
+    public void menuListen(){
+        itemExit.addActionListener(e->{ //退出
+            System.exit(0);
+        });
+        itemSci.addActionListener(e->{  //科学计算器帮助
+            HelpFrame shf = new HelpFrame("科学计算器用法","HelpDoc/sciHelp.txt");
+        });
+        itemProg.addActionListener(e->{  //程序员计算器帮助
+            HelpFrame shf = new HelpFrame("程序员计算器用法","HelpDoc/progHelp.txt");
+        });
+        itemMat.addActionListener(e->{  //矩阵计算器帮助
+            HelpFrame shf = new HelpFrame("矩阵计算器用法","HelpDoc/matHelp.txt");
+        });
+        itemEqua.addActionListener(e->{  //方程计算器帮助
+            HelpFrame shf = new HelpFrame("方程计算器用法","HelpDoc/equaHelp.txt");
+        });
+        itemAbout.addActionListener(e->{  //关于
+            HelpFrame shf = new HelpFrame("关于","HelpDoc/about.txt");
+        });
+    }//menuListen
+
     //开始监听
     public void listenInit(){
+        menuListen();
         sciListen();
         progListen();
         matListen();
