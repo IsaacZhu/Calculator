@@ -324,7 +324,7 @@ public class calculator3 extends JFrame{
 
         //按钮面板初始化
         matBtnPanel.setLayout(new GridLayout(2,4,0,0));
-        matBtnPanel.setBounds(0,140,400,195);
+        matBtnPanel.setBounds(0,140,400,200);
         matBtnPanel.setBackground(deepGrey);
         for (int i = 0; i < matBtnText.length; ++i){
             matBtns[i] = new JButton(matBtnText[i]);
@@ -332,10 +332,10 @@ public class calculator3 extends JFrame{
         }
 
         //结果面板初始化
-        matResultPanel.setBounds(400,140,280,195);
+        matResultPanel.setBounds(400,140,280,200);
         matResultPanel.add(matResult);
         matResultPanel.setLayout(null);
-        matResult.setBounds(0,0,280,195); 
+        matResult.setBounds(0,0,280,200); 
         matResult.setForeground(Color.WHITE);
         matResult.setEditable(false);
     }//matInit

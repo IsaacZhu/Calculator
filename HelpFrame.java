@@ -34,6 +34,7 @@ public class HelpFrame extends JFrame{
         outInfo.setBounds(0,0,400,430);
         outInfo.setBackground(new Color(76,76,76));
         outInfo.setForeground(Color.WHITE);
+        outInfo.setEditable(false);
         //文本框内容设置
         File file = new File(fileName);
         String content = new getInfoFromTxt().txt2String(file);

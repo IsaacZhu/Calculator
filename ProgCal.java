@@ -26,20 +26,21 @@ public class ProgCal{
     private String allowSet[] = {   //可行符号集
         "0","1","2","3","+","4","5","6","-",
         "(",")","A","B","7","8","9","*","C","D","E","F","AC","0","/",
-        "|","^","!","&",".","\0"
+        "|","^","!","&",".","\0","a","b","c","d","e","f"
     };
     private List<String> allowList = new ArrayList<String>();   //可行集的链表状态
     private String notAllowInDEC[] = {  //十进制禁止集
-        "A","B","C","D","E","F"
+        "A","B","C","D","E","F","a","b","c","d","e","f"
     };
     private String notAllowInOCT[] = {  //八进制禁止集
-        "A","B","C","D","E","F","9"
+        "A","B","C","D","E","F","9","a","b","c","d","e","f"
     };
     private String notAllowInBIN[] = {  //二进制禁止集
-        "A","B","C","D","E","F","3","4","5","6","7","8","9"
+        "A","B","C","D","E","F","3","4","5","6","7","8","9","a","b","c","d","e","f"
     };
     private char numSet[] = { //数字集，用于判定是否是数字
-        '1','2','3','4','5','6','7','8','9','0','A','B','C','D','E','F'
+        '1','2','3','4','5','6','7','8','9','0','A','B','C','D','E','F',
+        'a','b','c','d','e','f'
     };
     private List<Character> numList = new ArrayList<Character>();
     
@@ -100,7 +101,8 @@ public class ProgCal{
                     }
                     else isFloatNum = true; //记录这个小数点
                 }
-                else if (inputText[stringIndex] >= 'A' && inputText[stringIndex] <= 'F'){  //十六进制
+                else if (inputText[stringIndex] >= 'A' && inputText[stringIndex] <= 'F'
+                        || inputText[stringIndex] >= 'a' && inputText[stringIndex] <= 'f'){  //十六进制
                     tmpNum = inputText[stringIndex] - 'A' + 10; //unicode -> num
                     if (isFloatNum){    //小数 
                         if (tmpNum != 0)
