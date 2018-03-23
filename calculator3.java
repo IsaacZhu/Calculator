@@ -686,28 +686,36 @@ public class calculator3 extends JFrame{
         });
         //计算按钮监听
         matBtns[0].addActionListener(e->{   //+
-
+            matResult.setText(new MatCal(matRowA.getText(), matColA.getText(), matTextA.getText(), matRowB.getText(),
+                    matColB.getText(), matTextB.getText(), "+", matAChosen, matBChosen).getResult());
         });
         matBtns[1].addActionListener(e->{   //-
-
+            matResult.setText(new MatCal(matRowA.getText(), matColA.getText(), matTextA.getText(), matRowB.getText(),
+                    matColB.getText(), matTextB.getText(), "-", matAChosen, matBChosen).getResult());
         });
         matBtns[2].addActionListener(e->{   //*
-
+            matResult.setText(new MatCal(matRowA.getText(), matColA.getText(), matTextA.getText(), matRowB.getText(),
+                    matColB.getText(), matTextB.getText(), "*", matAChosen, matBChosen).getResult());
         });
         matBtns[3].addActionListener(e->{   //÷
-
+            matResult.setText(new MatCal(matRowA.getText(), matColA.getText(), matTextA.getText(), matRowB.getText(),
+                    matColB.getText(), matTextB.getText(), "/", matAChosen, matBChosen).getResult());
         });
         matBtns[4].addActionListener(e->{   //求逆
-
+            matResult.setText(new MatCal(matRowA.getText(), matColA.getText(), matTextA.getText(), matRowB.getText(),
+                    matColB.getText(), matTextB.getText(), "Inv", matAChosen, matBChosen).getResult());
         });
         matBtns[5].addActionListener(e->{   //行列式
-
+            matResult.setText(new MatCal(matRowA.getText(), matColA.getText(), matTextA.getText(), matRowB.getText(),
+                    matColB.getText(), matTextB.getText(), "||", matAChosen, matBChosen).getResult());
         });
         matBtns[6].addActionListener(e->{   //转置
-
+            matResult.setText(new MatCal(matRowA.getText(), matColA.getText(), matTextA.getText(), matRowB.getText(),
+                    matColB.getText(), matTextB.getText(), "Trans", matAChosen, matBChosen).getResult());
         });
         matBtns[7].addActionListener(e->{   //=
-
+            matResult.setText(new MatCal(matRowA.getText(), matColA.getText(), matTextA.getText(), matRowB.getText(),
+                    matColB.getText(), matTextB.getText(), "=", matAChosen, matBChosen).getResult());
         });
     }//matListen
 
