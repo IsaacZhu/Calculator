@@ -523,6 +523,7 @@ public class calculator3 extends JFrame{
             if (sciNumBtnText[i].equals("AC")){ //AC键
                 sciNumBtns[i].addActionListener(e->{
 			        sciText.setText("");  //将 文本域的 值设置为空
+                    sciResult.setText("");  //将结果域值置为空
 		        });
             }//if
             else if (sciNumBtnText[i].equals("CM")){

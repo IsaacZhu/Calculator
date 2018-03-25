@@ -83,9 +83,7 @@ public class ProgCal{
         boolean isFloatNum = false; //记录小数
         int bit = 0;    //小数位
         String newSym = String.valueOf(inputText[stringIndex]);  //获得一个字符
-        //System.out.println("#1");//tc
         if (!allowList.contains(newSym)){   //若该字符不合法
-            //System.out.println("#2");//tc
             error(0);       //报错并返回
             return;
         }
@@ -150,6 +148,7 @@ public class ProgCal{
 
     //递归计算部分
     public void factor(List<String> fsys){
+        double tmpNum;
         if (sym.equals("num")){ //数字
             numStack.push(symNum);  //数字入栈
             getSym();//获取下一个符号
@@ -165,19 +164,7 @@ public class ProgCal{
                 return;
             }
         }//else if (
-        //可能是个冒险的决定
-        else if (fsys.contains(sym)) return;
-        else{   //有误
-            error(0);   //不一定是这个错误。。。
-            return;
-        }//else
-    }//factor
-
-    public void neg_expr(List<String> fsys){
-        fsys.add("-");
-        factor(fsys);
-        double tmpNum;
-        while (sym.equals("-")){
+        else if (sym.equals("-")){
             getSym();
             factor(fsys);
             if (numStack.isEmpty()){    //栈空，有误
@@ -189,15 +176,21 @@ public class ProgCal{
                 tmpNum = -tmpNum;
                 numStack.push(tmpNum);  //取负后入栈
             }
-        }//while
-    }//neg_expr
+        }
+        //可能是个冒险的决定
+        else if (fsys.contains(sym)) return;
+        else{   //有误
+            error(0);   //不一定是这个错误。。。
+            return;
+        }//else
+    }//factor
 
     //位取反
     public void not_expr(List<String> fsys){
         int tmpInterger;
         double tmpFloat;
         fsys.add("!");
-        neg_expr(fsys);
+        factor(fsys);
         while (sym.equals("!")){
             getSym();
             factor(fsys);   //继续分析后面的内容
@@ -228,7 +221,6 @@ public class ProgCal{
         fsys.add("/");
         not_expr(fsys);
         while (sym.equals("*") || sym.equals("/")){
-            System.out.println("#3");
             mulop = sym;    //记录符号
             if (numStack.isEmpty()){    //栈空，有误
                 error(5);
@@ -257,8 +249,10 @@ public class ProgCal{
     public void additive_expr(List<String> fsys){
         double tmpNum1,tmpNum2;
         fsys.add("+");
+        String addop;
         mul_expr(fsys);
-        while (sym.equals("+")){
+        while (sym.equals("+") || sym.equals("-")){
+            addop = sym;    //记录操作符类型
             if (numStack.isEmpty()){    //栈空，有误
                 error(5);
                 return;
@@ -271,7 +265,11 @@ public class ProgCal{
                     error(5);
                     return;
                 }
-                else    {   
+                else if (addop.equals("-")){    //减法
+                    tmpNum2 = numStack.pop();    //出栈一个数
+                    numStack.push(tmpNum1 - tmpNum2);   //减并入栈
+                }
+                else{                           //加法   
                     tmpNum2 = numStack.pop();    //出栈一个数
                     numStack.push(tmpNum1 + tmpNum2);   //加并入栈
                 }//else
@@ -426,8 +424,7 @@ public class ProgCal{
                 resultString = Double.toString(result);  //转化为字符串
             }
             else if (scale == 16){  //十六进制
-                //resultString = Double.toHexString(result);    //tc
-                resultString = Integer.toHexString((int)result);      //tc
+                resultString = Integer.toHexString((int)result);    
             }
             else if (scale == 8){   //八进制
                 resultString = Integer.toOctalString((int)result);
