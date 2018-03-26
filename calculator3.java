@@ -533,7 +533,11 @@ public class calculator3 extends JFrame{
             }//else if CM
             else if (sciNumBtnText[i].equals("M")){
                 sciNumBtns[i].addActionListener(e->{
-			        sciMemText = sciText.getText();  //记录文本域的值
+			        //sciMemText = sciText.getText();  //记录文本域的值
+                    sciMemText = sciResult.getText();  //记录结果域的值
+                    if (sciMemText.length() > 0){     //不空
+                        sciMemText = sciMemText.substring(1);   //去掉等号
+                    }
 		        });
             }//else if M
             else {
