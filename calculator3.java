@@ -13,6 +13,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.InputEvent; 
 import java.awt.event.KeyEvent;
+import java.util.Properties;
+import java.nio.charset.Charset; 
 
 public class calculator3 extends JFrame{
     public static void main(String args[]){
@@ -25,6 +27,11 @@ public class calculator3 extends JFrame{
     }//main
     //构造函数
     calculator3(){
+        //for test
+        Properties props = System.getProperties();
+        System.out.println(System.getProperty("file.encoding"));
+        System.out.println(Charset.defaultCharset());
+        System.out.println(props.getProperty("os.name"));
         UIinit();
         listenInit();
     } //calculator
