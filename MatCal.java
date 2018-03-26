@@ -195,7 +195,7 @@ import javax.lang.model.util.ElementScanner6;
         for (int i = 0; i < row; i++) {
             String rowStr = "";
             for (int j = 0; j < col; j++) {
-                rowStr = rowStr + Double.toString(Mat[i][j]) + " ";
+                rowStr = rowStr + Double.toString(Mat[i][j]) + "    ";
             }
             result = result + rowStr + "\n";
         }

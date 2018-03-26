@@ -22,7 +22,7 @@ public class SciCal {
     }
 
     private void getsym() { //获取下一个符号
-        while (loc < formula.length() && (formula.substring(loc, loc + 1).equals(" ") || formula.substring(loc, loc + 1).equals("\t"))) {   //清除可能混入的空格
+        while (loc < formula.length() && (formula.charAt(loc) == ' ' || formula.charAt(loc) == '\t' || formula.charAt(loc) == '\n')) {   //清除可能混入的空格
             loc++;
         }
         if (loc == formula.length()) { //可能会有符号漏掉

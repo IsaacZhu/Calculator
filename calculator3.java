@@ -145,6 +145,7 @@ public class calculator3 extends JFrame{
         //初始化按钮
         for (int i = 0;i < progBtnText.length;++i){
             progBtns[i] = new JButton(progBtnText[i]); //设置文字
+            progBtns[i].setBackground(Color.WHITE);
             progBtnPanel.add(progBtns[i]);          //加入面板
         }
         progBtnPanel.setLayout(new GridLayout(4,8,0,0)); //设置网格
@@ -197,6 +198,7 @@ public class calculator3 extends JFrame{
         sciLeftSymPanel.setLayout(new GridLayout(5,3,0,0)); //网格式布局
         for (int i =0 ;i < sciLeftBtns.length; ++i){
             sciLeftBtns[i] = new JButton(sciLeftBtnText[i]);    //按键名称
+            sciLeftBtns[i].setBackground(Color.WHITE);
             sciLeftSymPanel.add(sciLeftBtns[i]);
         }
         sciLeftSymPanel.setBounds(0,50,400,290);    //设置大小及位置
@@ -206,6 +208,7 @@ public class calculator3 extends JFrame{
         sciNumPanel.setLayout(new GridLayout(5,3,0,0));
         for (int i = 0;i < sciNumBtns.length; ++i){
             sciNumBtns[i] = new JButton(sciNumBtnText[i]);
+            sciNumBtns[i].setBackground(Color.WHITE);
             sciNumPanel.add(sciNumBtns[i]);
         }
         sciNumPanel.setBounds(400,50,200,290);
@@ -218,6 +221,7 @@ public class calculator3 extends JFrame{
             sciRightSymPanel.add(sciRightBtns[i]);
             sciRightBtns[i].setBorderPainted(false);//去掉边框
             sciRightBtns[i].setForeground(Color.WHITE);
+            sciRightBtns[i].setBackground(thickOrange);
             sciRightBtns[i].setFont(new Font("苹方",1,20));
         }
         sciRightSymPanel.setBounds(600,50,80,290);
@@ -308,10 +312,12 @@ public class calculator3 extends JFrame{
             //设置各组件其他属性
         matA.setSelected(true);         //默认选中A
         matA.setForeground(Color.WHITE);    //颜色
+        matA.setBackground(deepGrey);
         matRowTipA.setForeground(Color.WHITE);
         matColTipA.setForeground(Color.WHITE);
         matFacTipA.setForeground(Color.WHITE);
         matB.setForeground(Color.WHITE);
+        matB.setBackground(deepGrey);
         matRowTipB.setForeground(Color.WHITE);
         matColTipB.setForeground(Color.WHITE);
         matFacTipB.setForeground(Color.WHITE);  
@@ -328,6 +334,7 @@ public class calculator3 extends JFrame{
         matBtnPanel.setBackground(deepGrey);
         for (int i = 0; i < matBtnText.length; ++i){
             matBtns[i] = new JButton(matBtnText[i]);
+            matBtns[i].setBackground(Color.WHITE);
             matBtnPanel.add(matBtns[i]);    //添加到面板
         }
 
@@ -336,7 +343,7 @@ public class calculator3 extends JFrame{
         matResultPanel.add(matResult);
         matResultPanel.setLayout(null);
         matResult.setBounds(0,0,280,200); 
-        matResult.setForeground(Color.WHITE);
+        matResult.setForeground(Color.BLACK);
         matResult.setEditable(false);
     }//matInit
 
@@ -401,6 +408,7 @@ public class calculator3 extends JFrame{
         equaBtnPanel.setBackground(thickOrange);
         equaCalBtn.setBorderPainted(false);
         equaCalBtn.setForeground(Color.WHITE);
+        equaCalBtn.setBackground(thickOrange);
         equaCalBtn.setFont(new Font("苹方",1,30));
 
         //结果面板初始化
@@ -475,6 +483,7 @@ public class calculator3 extends JFrame{
     };//class progTextBtnListener
         
     String sciMemText = "";
+    String sciAnsText = "";
     //科学计算器监听
     public void sciListen(){
         //左边面板
@@ -539,6 +548,11 @@ public class calculator3 extends JFrame{
                         sciMemText = sciMemText.substring(1);   //去掉等号
                     }
 		        });
+            }
+            else if (sciNumBtnText[i].equals("ANS")) {
+                sciNumBtns[i].addActionListener(e->{
+                    sciText.setText("ANS");
+                });
             }//else if M
             else {
                 sciNumBtns[i].addActionListener(sciTextBtnListener);
@@ -551,9 +565,13 @@ public class calculator3 extends JFrame{
         }
 
         // = 号
-        //TODO:未添加
         sciRightBtns[4].addActionListener(e->{
-            sciResult.setText("=" + new SciCal(sciText.getText()).getResult());
+            String inputText = sciText.getText().replace("ANS", sciAnsText);
+            sciResult.setText("=" + new SciCal(inputText).getResult());
+            sciAnsText = sciResult.getText();   //将结果记录到ANS中
+            if (sciAnsText.length() > 0) {
+                sciAnsText = sciAnsText.substring(1); //去掉等号
+            }
         });
 
     }//sciListen
