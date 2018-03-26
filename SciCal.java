@@ -33,6 +33,7 @@ public class SciCal {
             while (loc < formula.length() && Character.isDigit(formula.charAt(loc)))
                 loc++;
             if (loc < formula.length() && formula.charAt(loc) == '.') { //确保只有一个'.'
+                loc ++;
                 while (loc < formula.length() && Character.isDigit(formula.charAt(loc)))
                     loc++;
             }
