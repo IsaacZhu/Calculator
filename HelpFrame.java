@@ -23,7 +23,7 @@ class getInfoFromTxt{
 
 public class HelpFrame extends JFrame{
     public HelpFrame(String title, String fileName){
-        this.setSize(400,430);
+        this.setSize(400,500);
         this.add(outInfo);
         this.setLayout(null);
         this.setTitle(title);
@@ -31,7 +31,7 @@ public class HelpFrame extends JFrame{
         this.setResizable(false);   //禁止拖曳改变窗口大小
         this.setLocation(1010, 200); //初始化时定位
 
-        outInfo.setBounds(0,0,400,430);
+        outInfo.setBounds(0,0,400,500);
         outInfo.setBackground(new Color(76,76,76));
         outInfo.setForeground(Color.WHITE);
         outInfo.setEditable(false);

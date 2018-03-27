@@ -1,6 +1,5 @@
-//calculator
-//real version
-//zjr 18/3
+//Cacio
+//18/3
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.InputEvent; 
 import java.awt.event.KeyEvent;
+import java.nio.charset.Charset;
 
 public class Cacio extends JFrame{
     public static void main(String args[]){
@@ -25,12 +25,13 @@ public class Cacio extends JFrame{
     }//main
     //构造函数
     Cacio(){
+        charSet = Charset.defaultCharset().displayName();   //获取系统默认字符集
         UIinit();
         listenInit();
-    } //calculator
+    } //Cacio
 
     /***************界面生成********************************************************/
-    private JFrame jf=new JFrame("Calculator"); //窗口
+    private JFrame jf=new JFrame("Cacio"); //窗口
 	private JPanel sciCalPanel=new JPanel();    //科学计算器面板
 	private JPanel progCalPanel=new JPanel();   //程序计算器面板
     private JPanel matrixCalPanel = new JPanel();//矩阵计算器面板
@@ -777,21 +778,40 @@ public class Cacio extends JFrame{
         itemExit.addActionListener(e->{ //退出
             System.exit(0);
         });
-        itemSci.addActionListener(e->{  //科学计算器帮助
-            HelpFrame shf = new HelpFrame("科学计算器用法","HelpDoc/sciHelp.txt");
-        });
-        itemProg.addActionListener(e->{  //程序员计算器帮助
-            HelpFrame shf = new HelpFrame("程序员计算器用法","HelpDoc/progHelp.txt");
-        });
-        itemMat.addActionListener(e->{  //矩阵计算器帮助
-            HelpFrame shf = new HelpFrame("矩阵计算器用法","HelpDoc/matHelp.txt");
-        });
-        itemEqua.addActionListener(e->{  //方程计算器帮助
-            HelpFrame shf = new HelpFrame("方程计算器用法","HelpDoc/equaHelp.txt");
-        });
-        itemAbout.addActionListener(e->{  //关于
-            HelpFrame shf = new HelpFrame("关于","HelpDoc/about.txt");
-        });
+        if (charSet.equals("gbk") || charSet.equals("GBK")){ //GBK编码
+            itemSci.addActionListener(e->{  //科学计算器帮助
+                HelpFrame shf = new HelpFrame("科学计算器用法","HelpDoc/sciHelpGbk.txt");
+            });
+            itemProg.addActionListener(e->{  //程序员计算器帮助
+                HelpFrame shf = new HelpFrame("程序员计算器用法","HelpDoc/progHelpGbk.txt");
+            });
+            itemMat.addActionListener(e->{  //矩阵计算器帮助
+                HelpFrame shf = new HelpFrame("矩阵计算器用法","HelpDoc/matHelpGbk.txt");
+            });
+            itemEqua.addActionListener(e->{  //方程计算器帮助
+                HelpFrame shf = new HelpFrame("方程计算器用法","HelpDoc/equaHelpGbk.txt");
+            });
+            itemAbout.addActionListener(e->{  //关于
+                HelpFrame shf = new HelpFrame("关于","HelpDoc/aboutGbk.txt");
+            });
+        }
+        else{   //utf-8
+            itemSci.addActionListener(e->{  //科学计算器帮助
+                HelpFrame shf = new HelpFrame("科学计算器用法","HelpDoc/sciHelp.txt");
+            });
+            itemProg.addActionListener(e->{  //程序员计算器帮助
+                HelpFrame shf = new HelpFrame("程序员计算器用法","HelpDoc/progHelp.txt");
+            });
+            itemMat.addActionListener(e->{  //矩阵计算器帮助
+                HelpFrame shf = new HelpFrame("矩阵计算器用法","HelpDoc/matHelp.txt");
+            });
+            itemEqua.addActionListener(e->{  //方程计算器帮助
+                HelpFrame shf = new HelpFrame("方程计算器用法","HelpDoc/equaHelp.txt");
+            });
+            itemAbout.addActionListener(e->{  //关于
+                HelpFrame shf = new HelpFrame("关于","HelpDoc/about.txt");
+            });
+        }//else
     }//menuListen
 
     //开始监听
