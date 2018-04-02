@@ -6,6 +6,7 @@ import java.util.List;
 public class EquaCal{
     /**********************解一元二次方程************************/
     private double a = 0.0,b = 0.0,c = 0.0,d = 0.0,ttResult1 = 0.0, ttResult2 = 0.0, delta = 0.0;
+    private double oldC = 0.0;
     private char[] inputText;
 
     public String getTwoTimesEquationResult(String text){
@@ -46,6 +47,7 @@ public class EquaCal{
         d = Double.parseDouble(text.substring(0,index));   //获取第四个数
         
         c = c - d;
+        oldC = c;
         //计算delta
         delta = b*b - 4*a*c;
         System.out.println(delta);//tc
@@ -53,7 +55,7 @@ public class EquaCal{
         ttResult1 = (-b + Math.sqrt(delta))/(2*a);
         ttResult2 = (-b - Math.sqrt(delta))/(2*a);
         System.out.println("re:"+ttResult1);//tc
-        return  a + " x^2+" + b + " x+" + c + "=" + d + "\n"
+        return  a + " x^2+" + b + " x+" + oldC + "=" + d + "\n"
                 + "x1 = " + Double.toString(ttResult1) + "\n"
                 + "x2 = " + Double.toString(ttResult2);
     }//getTwoTimesEquationResult
@@ -125,7 +127,7 @@ public class EquaCal{
             for (j = 0; j < dim-1; ++j){
                 returnText[0] += matrix[i][j] + "*x" + j + "+";
             }//for j
-            returnText[0] += matrix[i][dim-1] + "*x" + dim;       //最后一个变量系数
+            returnText[0] += matrix[i][dim-1] + "*x" + (dim-1);       //最后一个变量系数
             returnText[0] += "=" + matrix[i][dim] + "\n";   //等式右边的数
         }//for i
         /************读入矩阵输出结束*****************/

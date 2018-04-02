@@ -763,6 +763,7 @@ public class Cacio extends JFrame{
         });
         equaCalBtn.addActionListener(e->{   //等号
             if (equaTypeSelected.equals("一元二次")){
+                equaResultRightPart.setText("");    //设为空
                 equaResult.setText(new EquaCal().getTwoTimesEquationResult(equaCoeff.getText()));
             }
             else{   //n元一次
@@ -797,7 +798,7 @@ public class Cacio extends JFrame{
         }
         else{   //utf-8
             itemSci.addActionListener(e->{  //科学计算器帮助
-                HelpFrame shf = new HelpFrame("科学计算器用法","HelpDoc/sciHelp.txt");
+                HelpFrame shf = new HelpFrame("科学计算器用法","HelpDpc/sciHelp.txt");
             });
             itemProg.addActionListener(e->{  //程序员计算器帮助
                 HelpFrame shf = new HelpFrame("程序员计算器用法","HelpDoc/progHelp.txt");

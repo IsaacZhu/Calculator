@@ -455,7 +455,7 @@ public class ProgCal{
         else if (outputRadix == 8){    //八进制
             return Integer.toOctalString(intPart);//转成八进制
         }
-        else if (outputRadix == 16){    //二进制
+        else if (outputRadix == 2){    //二进制
             return Integer.toBinaryString(intPart);//转成二进制
         }
         else{
